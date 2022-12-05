@@ -132,7 +132,7 @@ void touchpad_read(lv_indev_drv_t * indev_driver, lv_indev_data_t * data)
     //Set the coordinates
     data->point.x = touchX;
     data->point.y = touchY;
-    Serial.printf("Touch (x,y): (%03d,%03d)\n",touchX,touchY);
+    //Serial.printf("Touch (x,y): (%03d,%03d)\n",touchX,touchY);
 
     if(offTimer==u8_mPowersaveTime) lcd.wakeup(); 
     offTimer=0;

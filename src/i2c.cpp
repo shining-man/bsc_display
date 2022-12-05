@@ -28,7 +28,7 @@ void initI2C()
 
   I2C.onReceive(onReceive);
   //I2C.onRequest(onRequest);
-  Serial.println(I2C.begin((uint8_t)I2C_DEV_ADDR,32,33,400000));
+  Serial.println(I2C.begin((uint8_t)I2C_DEV_ADDR,32,33,1000000));
 }
 
 
@@ -40,7 +40,7 @@ void initI2C()
 }*/
 
 
-void onReceive(int len)
+void IRAM_ATTR onReceive(int len)
 {
   u8_mI2cRxBufLen=0;
 
@@ -52,7 +52,7 @@ void onReceive(int len)
   processRxData();
 }
 
-void processRxData()
+void IRAM_ATTR processRxData()
 {
   if(u8_mI2cRxBufLen<4) return;
 
