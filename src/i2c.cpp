@@ -71,7 +71,7 @@ void IRAM_ATTR processRxData()
           break;
 
         case BMS_TOTAL_VOLTAGE:
-          memcpy(&lData->bmsTotalVoltage[u8_lBmsNr], &i2cRxBuf[RXBUFF_OFFSET], 4);
+          memcpy(&lData->bmsTotalVoltage[u8_lBmsNr], &i2cRxBuf[RXBUFF_OFFSET], 2);
           break;
 
         case BMS_MAX_CELL_DIFFERENCE_VOLTAGE:
@@ -83,7 +83,7 @@ void IRAM_ATTR processRxData()
           break;
 
         case BMS_TOTAL_CURRENT:
-          memcpy(&lData->bmsTotalCurrent[u8_lBmsNr], &i2cRxBuf[RXBUFF_OFFSET], 4);
+          memcpy(&lData->bmsTotalCurrent[u8_lBmsNr], &i2cRxBuf[RXBUFF_OFFSET], 2);
           break;
 
         case BMS_MAX_CELL_VOLTAGE:
@@ -107,11 +107,11 @@ void IRAM_ATTR processRxData()
           break;
 
         case BMS_BALANCING_CURRENT:
-          memcpy(&lData->bmsBalancingCurrent[u8_lBmsNr], &i2cRxBuf[RXBUFF_OFFSET], 4);
+          memcpy(&lData->bmsBalancingCurrent[u8_lBmsNr], &i2cRxBuf[RXBUFF_OFFSET], 2);
           break;
 
         case BMS_TEMPERATURE:
-          memcpy(&lData->bmsTempature[u8_lBmsNr], &i2cRxBuf[RXBUFF_OFFSET], 12);
+          memcpy(&lData->bmsTempature[u8_lBmsNr], &i2cRxBuf[RXBUFF_OFFSET], 6);
           break;
 
         case BMS_CHARGE_PERCENT:

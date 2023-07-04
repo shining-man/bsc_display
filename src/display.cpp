@@ -478,8 +478,8 @@ void displayNewBscData()
     label = lv_obj_get_child(tabBmsOverview, u8_lObjCnt);
     lv_label_set_recolor(label, true);
     lv_label_set_text_fmt(label, "%d\n\n%.1f\n%.1f\n%d\n%d\n\n%d\n\n%d\n\n%.1f\n%s\n%s", u8_lObjCnt-1,
-    lDataDisp->bmsTotalVoltage[i], lDataDisp->bmsTotalCurrent[i], lDataDisp->bmsChargePercentage[i], lDataDisp->bmsMaxCellVoltage[i],
-    lDataDisp->bmsMinCellVoltage[i], lDataDisp->bmsMaxCellDifferenceVoltage[i], lDataDisp->bmsTempature[i][0], str_lIsBalance.c_str(),
+    lDataDisp->bmsTotalVoltage[i]/100.0, lDataDisp->bmsTotalCurrent[i]/100.0, lDataDisp->bmsChargePercentage[i], lDataDisp->bmsMaxCellVoltage[i],
+    lDataDisp->bmsMinCellVoltage[i], lDataDisp->bmsMaxCellDifferenceVoltage[i], lDataDisp->bmsTempature[i][0]/100.0, str_lIsBalance.c_str(),
     str_lError.c_str());
     u8_lObjCnt++;
   }
