@@ -13,6 +13,10 @@ Als Display wird ein WT32-SC01 genutzt. Voraussetzung für das Display ist ein S
   * Max. Lade/Entlade Strom
 * Status der Alarme vom BSC
 
+## Flashen des ESP32
+Das Flashen kann nach folgender Beschreibung durchgeführt werden: 
+[Flashen des ESP32](https://github.com/shining-man/bsc_fw/wiki#flashen-mit-dem-download-tool-only-windows)
+
 ## Verbinden des Displays mit dem BSC
 Verbunden wird das Display über den I2C-Bus mit dem BSC.<br>
 Der I2C-Bus ist je nach PCB Version des BSC auf folgenden Steckern zu finden:<br>
