@@ -50,3 +50,5 @@
 //BSC_DATA 0x03
 #define BSC_ALARMS                        0x01 
 #define BSC_IP_ADDR                       0x02
+#define BSC_RELAIS                        0x03
+#define BSC_DISPLAY_TIMEOUT               0x04

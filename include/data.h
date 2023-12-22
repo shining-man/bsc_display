@@ -42,6 +42,8 @@ struct data_s
   //bsc
   uint16_t   bscAlarms;
   char       bscIpAdr[16];
+  uint8_t    bscRelais;
+  uint8_t    displayTimeout;
 };
 
 

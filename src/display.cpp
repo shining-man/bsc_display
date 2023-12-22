@@ -28,7 +28,7 @@ static lv_disp_draw_buf_t draw_buf;
 static lv_color_t buf[screenWidth * 10];
 
 //Settings
-uint8_t u8_mPowersaveTime = 60;
+uint8_t u8_mPowersaveTime = 1;
 static struct data_s *lDataDisp;
 
 lv_obj_t * tabHome;
@@ -40,6 +40,8 @@ lv_obj_t * kachelAlarme;
 lv_obj_t * kachelBmsError;
 lv_obj_t * kachelInverter;
 lv_obj_t * kachelInverter2;
+
+lv_obj_t * relaisState[6];
 
 // Function declaration
 void display_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p);
@@ -91,8 +93,8 @@ void displayRunCyclic()
   currentMillis = millis();
   if(currentMillis - previousMillis1000 >=1000)
   {
-    if(offTimer<u8_mPowersaveTime) offTimer++;
-    if(offTimer==u8_mPowersaveTime) lcd.sleep();
+    if(offTimer<(u8_mPowersaveTime*60)) offTimer++;
+    if(offTimer>=(u8_mPowersaveTime*60)) lcd.sleep();
 
     previousMillis1000 = currentMillis;
   }
@@ -134,7 +136,7 @@ void touchpad_read(lv_indev_drv_t * indev_driver, lv_indev_data_t * data)
     data->point.y = touchY;
     //Serial.printf("Touch (x,y): (%03d,%03d)\n",touchX,touchY);
 
-    if(offTimer==u8_mPowersaveTime) lcd.wakeup(); 
+    if(offTimer>=(u8_mPowersaveTime*60)) lcd.wakeup(); 
     offTimer=0;
   }
 }
@@ -167,11 +169,23 @@ static void draw_part_event_cb(lv_event_t * e)
     }
 }
 
+static void scroll_begin_event(lv_event_t* e)
+{
+    /*Disable the scroll animations. Triggered when a tab button is clicked */
+    if (lv_event_get_code(e) == LV_EVENT_SCROLL_BEGIN) {
+        lv_anim_t* a = (lv_anim_t *)lv_event_get_param(e);
+        if (a)  a->time = 0;
+     
+    }
+}
+
 
 void createScreens(void)
 {
   lv_obj_t * tabview;
   tabview = lv_tabview_create(lv_scr_act(), LV_DIR_LEFT, 60);
+  lv_obj_clear_flag(lv_tabview_get_content(tabview), LV_OBJ_FLAG_SCROLLABLE);
+  lv_obj_add_event_cb(lv_tabview_get_content(tabview), scroll_begin_event,LV_EVENT_SCROLL_BEGIN, NULL);
 
   lv_obj_t * tab_btns = lv_tabview_get_tab_btns(tabview);
   lv_obj_set_style_bg_color(tab_btns, lv_palette_darken(LV_PALETTE_GREY, 3), 0);
@@ -179,6 +193,7 @@ void createScreens(void)
   lv_obj_set_style_border_side(tab_btns, LV_BORDER_SIDE_RIGHT, LV_PART_ITEMS | LV_STATE_CHECKED);
 
   tabHome = lv_tabview_add_tab(tabview, "Home");
+  lv_obj_set_scrollbar_mode(tabHome, LV_SCROLLBAR_MODE_OFF);
   tabBmsOverview = lv_tabview_add_tab(tabview, "BMS");
   tabZellSpg = lv_tabview_add_tab(tabview, "Cell\nSpg.");
   tabInfo = lv_tabview_add_tab(tabview, "Info");
@@ -234,9 +249,9 @@ void createScreens(void)
   lv_label_set_text(label, "#2196F3 Battery safety controller#");
   lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 10);
   
-  label = lv_label_create(tabHome);
+  /*label = lv_label_create(tabHome);
   lv_label_set_text(label, "https://github.com/shining-man/bsc_fw");
-  lv_obj_align(label, LV_ALIGN_BOTTOM_MID, 0, 0);
+  lv_obj_align(label, LV_ALIGN_BOTTOM_MID, 0, 0);*/
 
 
   //Kachel 1
@@ -252,7 +267,7 @@ void createScreens(void)
   label = lv_label_create(kachelAlarme);
   lv_obj_add_style(label, &style_fontKachel, 0);
   lv_label_set_recolor(label, true);
-  lv_label_set_text_fmt(label, "#252850 Alarme#");
+  lv_label_set_text_fmt(label, "#252850 Trigger#");
   lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 0);
 
   label = lv_label_create(kachelAlarme);
@@ -337,6 +352,35 @@ void createScreens(void)
   lv_obj_add_style(label, &style_fontKachel, 0);
   lv_label_set_text_fmt(label, "%.2f A\n%.2f A",0,0);
   lv_obj_align(label, LV_ALIGN_TOP_LEFT, 65, 20);
+
+  //Relais
+  uint8_t relNr=5;
+  for(uint8_t i=0;i<6;i++)
+  {
+    uint16_t xpos = 10+(i*62);
+    relaisState[i] = lv_obj_create(tabHome);  
+    lv_obj_set_scrollbar_mode(relaisState[i], LV_SCROLLBAR_MODE_OFF);
+    lv_obj_add_style(relaisState[i], &style_kachel,0);
+    lv_obj_set_size(relaisState[i], 55, 25);
+    lv_obj_align(relaisState[i], LV_ALIGN_BOTTOM_LEFT, xpos, 12);
+    
+    label = lv_label_create(relaisState[i]);
+    lv_obj_set_scrollbar_mode(label, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_add_style(label, &style_fontKachel, 0);
+    lv_label_set_text_fmt(label, "Rel %i",relNr);
+    lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
+    relNr--;
+  }
+
+  //Test
+  /*uint8_t u8_lRelais = 0x3;
+  uint8_t u8_relNr=5;
+  for(uint8_t i=0;i<6;i++)
+  {
+    if((u8_lRelais>>i)&0x1) lv_obj_set_style_bg_color(relaisState[u8_relNr],LV_COLOR_MAKE(0xff, 0x00, 0x00),LV_PART_MAIN);
+    else lv_obj_set_style_bg_color(relaisState[u8_relNr],LV_COLOR_MAKE(0x00, 0xff, 0x00),LV_PART_MAIN);
+    u8_relNr--;
+  }*/
 
 
   /****************************************
@@ -497,7 +541,16 @@ void displayNewBscData()
   lv_label_set_text_fmt(label, "%d  %d  %d  %d  %d\n%d  %d  %d  %d  %d",
     alms[0],alms[1],alms[2],alms[3],alms[4],alms[5],alms[6],alms[7],alms[8],alms[9]);
 
-
+  //Relais
+  uint8_t u8_lRelais = lDataDisp->bscRelais;
+  uint8_t u8_lRelNr=5;
+  for(uint8_t i=0;i<6;i++)
+  {
+    if((u8_lRelais>>i)&0x1) lv_obj_set_style_bg_color(relaisState[u8_lRelNr],LV_COLOR_MAKE(0xff, 0x00, 0x00),LV_PART_MAIN);
+    else lv_obj_set_style_bg_color(relaisState[u8_lRelNr],LV_COLOR_MAKE(0x00, 0xff, 0x00),LV_PART_MAIN);
+    u8_lRelNr--;
+  }
+  
   //Kachel2; BMS Fehler
   label = lv_obj_get_child(kachelBmsError, 1);
   lv_label_set_recolor(label, true);
@@ -516,5 +569,8 @@ void displayNewBscData()
   //Tab Info
   label = lv_obj_get_child(tabInfo, 3);
   lv_label_set_text_fmt(label, "%s",lDataDisp->bscIpAdr);
+
+  //Displaytimeout
+  u8_mPowersaveTime=lDataDisp->displayTimeout;
 }
 
