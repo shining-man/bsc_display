@@ -28,7 +28,7 @@ static lv_disp_draw_buf_t draw_buf;
 static lv_color_t buf[screenWidth * 10];
 
 //Settings
-uint8_t u8_mPowersaveTime = 1;
+uint8_t u8_mPowersaveTime = 5;
 static struct data_s *lDataDisp;
 
 lv_obj_t * tabHome;
@@ -354,7 +354,6 @@ void createScreens(void)
   lv_obj_align(label, LV_ALIGN_TOP_LEFT, 65, 20);
 
   //Relais
-  uint8_t relNr=5;
   for(uint8_t i=0;i<6;i++)
   {
     uint16_t xpos = 10+(i*62);
@@ -367,21 +366,9 @@ void createScreens(void)
     label = lv_label_create(relaisState[i]);
     lv_obj_set_scrollbar_mode(label, LV_SCROLLBAR_MODE_OFF);
     lv_obj_add_style(label, &style_fontKachel, 0);
-    lv_label_set_text_fmt(label, "Rel %i",relNr);
+    lv_label_set_text_fmt(label, "Rel %i",i);
     lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
-    relNr--;
   }
-
-  //Test
-  /*uint8_t u8_lRelais = 0x3;
-  uint8_t u8_relNr=5;
-  for(uint8_t i=0;i<6;i++)
-  {
-    if((u8_lRelais>>i)&0x1) lv_obj_set_style_bg_color(relaisState[u8_relNr],LV_COLOR_MAKE(0xff, 0x00, 0x00),LV_PART_MAIN);
-    else lv_obj_set_style_bg_color(relaisState[u8_relNr],LV_COLOR_MAKE(0x00, 0xff, 0x00),LV_PART_MAIN);
-    u8_relNr--;
-  }*/
-
 
   /****************************************
    * Tab Zellspannungen
@@ -464,23 +451,36 @@ void createScreens(void)
   /****************************************
    * Tab Info
    ****************************************/
+  
+  //Headline
   label = lv_label_create(tabInfo);
   lv_label_set_recolor(label, true);
   lv_obj_add_style(label, &style_font1, 0);
   lv_label_set_text(label, "#2196F3 Battery safety controller#");
   lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 10);
   
+  //Footer
   label = lv_label_create(tabInfo);
   lv_label_set_text(label, "https://github.com/shining-man/bsc_fw");
   lv_obj_align(label, LV_ALIGN_BOTTOM_MID, 0, 0);
 
+  //IP-Address
   label = lv_label_create(tabInfo);
-  lv_label_set_text(label, "IP Adresse BSC");
+  lv_label_set_text(label, "IP Adresse BSC:");
   lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 60);
 
   label = lv_label_create(tabInfo);
   lv_label_set_text_fmt(label, "%s","192.168.178.255");
-  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 120, 60);
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 150, 60);
+
+  //Firmware Version
+  label = lv_label_create(tabInfo);
+  lv_label_set_text(label, "Display Fw-Version: " );
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 80);
+
+  label = lv_label_create(tabInfo);
+  lv_label_set_text_fmt(label, "%s",BSCD_FW_VERSION);
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 150, 80);
 }
 
 
@@ -564,7 +564,8 @@ void displayNewBscData()
 
   //Kachel4; Inverter 2
   label = lv_obj_get_child(kachelInverter2, 2);
-  lv_label_set_text_fmt(label, "%d A\n%d A\n",lDataDisp->inverterChargeCurrent/10,lDataDisp->inverterDischargeCurrent/10);
+  lv_label_set_text_fmt(label, "%d A\n%d A\n",lDataDisp->inverterChargeCurrent,lDataDisp->inverterDischargeCurrent);
+  //lv_label_set_text_fmt(label, "%d A\n%d A\n",lDataDisp->inverterChargeCurrent/10,lDataDisp->inverterDischargeCurrent/10);
 
   //Tab Info
   label = lv_obj_get_child(tabInfo, 3);
