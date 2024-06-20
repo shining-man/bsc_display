@@ -565,7 +565,6 @@ void displayNewBscData()
   //Kachel4; Inverter 2
   label = lv_obj_get_child(kachelInverter2, 2);
   lv_label_set_text_fmt(label, "%d A\n%d A\n",lDataDisp->inverterChargeCurrent,lDataDisp->inverterDischargeCurrent);
-  //lv_label_set_text_fmt(label, "%d A\n%d A\n",lDataDisp->inverterChargeCurrent/10,lDataDisp->inverterDischargeCurrent/10);
 
   //Tab Info
   label = lv_obj_get_child(tabInfo, 3);
