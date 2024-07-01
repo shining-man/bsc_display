@@ -21,7 +21,7 @@ Das Flashen kann nach folgender Beschreibung durchgeführt werden:
 Verbunden wird das Display über den I2C-Bus mit dem BSC.<br>
 Der I2C-Bus ist je nach PCB Version des BSC auf folgenden Steckern zu finden:<br>
 PCB V1.0: X1<br>
-PCB >= V2.0: Extension-Port J11 (2x5 pol. Pfostenleiste)<br>
+PCB >= V2.0: Extension-Port J3 (2x5 pol. Pfostenleiste)<br>
 <br>
 Am Display ist der I2C-Bus auf folgenden GPIOs:<br>
 SDA: GPIO32<br>

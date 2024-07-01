@@ -4,6 +4,8 @@
 // https://opensource.org/licenses/MIT
 
 
+//General
+#define BSCD_FW_VERSION      "1.0.2"
 
 //Bluetooth
 #define BT_DEVICES_COUNT             5
