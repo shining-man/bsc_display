@@ -1,6 +1,6 @@
 # Statusdisplay für den Battery safety controller (BSC) 
-![Picture_BSC_Display_Home](https://github.com/shining-man/bsc_display/blob/main/img/Disp_Home.jpg?raw=true)<br>
-
+<img src="https://github.com/user-attachments/assets/8db86295-1d72-4389-9650-80bd504366ac" height="500"/>
+<br><br>
 Das Display zeigt den Status des Battery safety controllers (BSC).<br>
 Als Display wird ein WT32-SC01 genutzt. Voraussetzung für das Display ist ein Softwarestand vom BSC >= V0.2.0.
 
