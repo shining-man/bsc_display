@@ -474,6 +474,20 @@ void createScreens(void)
   label = lv_label_create(tabInfo);
   lv_label_set_text(label, "Display Fw-Version: " );
   lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 80);
+  //Firmware Version
+  label = lv_label_create(tabInfo);
+  lv_label_set_text(label, "Firmware-Version " );
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 110);
+
+  //Underlined
+  line1 = lv_line_create(tabInfo);
+  static lv_point_t line_points8[] = {{0, 125}, {130, 125}};
+  lv_line_set_points(line1, line_points8, 2);   
+  lv_obj_add_style(line1, &style_line2, 0);
+  //Display
+  label = lv_label_create(tabInfo);
+  lv_label_set_text(label, "Display: " );
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 150);
 
   label = lv_label_create(tabInfo);
   lv_label_set_text_fmt(label, "%s",BSCD_FW_VERSION);
