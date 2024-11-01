@@ -480,7 +480,14 @@ void createScreens(void)
 
   label = lv_label_create(tabInfo);
   lv_label_set_text_fmt(label, "%s",BSCD_FW_VERSION);
-  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 150, 80);
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 150, 150);
+
+  //----------------------
+
+  //Footer
+  label = lv_label_create(tabInfo);
+  lv_label_set_text(label, "https://github.com/shining-man/bsc_fw\n          https://www.BSC-Shop.com");
+  lv_obj_align(label, LV_ALIGN_BOTTOM_MID, 0, 0);
 }
 
 
