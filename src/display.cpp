@@ -340,18 +340,18 @@ void createScreens(void)
   label = lv_label_create(kachelInverter2);
   lv_obj_add_style(label, &style_fontKachel, 0);
   lv_label_set_recolor(label, true);
-  lv_label_set_text_fmt(label, "#252850 Wechselrichter#");
+  lv_label_set_text_fmt(label, "#252850 Wechselrichter\n           max#");
   lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 0);
 
   label = lv_label_create(kachelInverter2);
   lv_obj_add_style(label, &style_fontKachel, 0);
   lv_label_set_text_fmt(label, "Lade.\nEntl.");
-  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 20);
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 39);
 
   label = lv_label_create(kachelInverter2);
   lv_obj_add_style(label, &style_fontKachel, 0);
   lv_label_set_text_fmt(label, "%.2f A\n%.2f A",0,0);
-  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 65, 20);
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 65, 39);
 
   //Relais
   for(uint8_t i=0;i<6;i++)
