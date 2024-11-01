@@ -248,10 +248,6 @@ void createScreens(void)
   lv_obj_add_style(label, &style_font1, 0);
   lv_label_set_text(label, "#2196F3 Battery safety controller#");
   lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 10);
-  
-  /*label = lv_label_create(tabHome);
-  lv_label_set_text(label, "https://github.com/shining-man/bsc_fw");
-  lv_obj_align(label, LV_ALIGN_BOTTOM_MID, 0, 0);*/
 
 
   //Kachel 1
@@ -584,7 +580,10 @@ void displayNewBscData()
   label = lv_obj_get_child(kachelInverter2, 2);
   lv_label_set_text_fmt(label, "%d A\n%d A\n",lDataDisp->inverterChargeCurrent,lDataDisp->inverterDischargeCurrent);
 
-  //Tab Info
+
+  //****** Tab Info ******
+  
+  //IP-Adress
   label = lv_obj_get_child(tabInfo, 3);
   lv_label_set_text_fmt(label, "%s",lDataDisp->bscIpAdr);
 
