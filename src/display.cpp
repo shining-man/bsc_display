@@ -459,10 +459,7 @@ void createScreens(void)
   lv_label_set_text(label, "#2196F3 Battery safety controller#");
   lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 10);
   
-  //Footer
-  label = lv_label_create(tabInfo);
-  lv_label_set_text(label, "https://github.com/shining-man/bsc_fw");
-  lv_obj_align(label, LV_ALIGN_BOTTOM_MID, 0, 0);
+  //----------------------
 
   //IP-Address
   label = lv_label_create(tabInfo);
