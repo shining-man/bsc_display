@@ -463,11 +463,11 @@ void createScreens(void)
 
   //IP-Address
   label = lv_label_create(tabInfo);
-  lv_label_set_text(label, "IP Adresse BSC:");
+  lv_label_set_text(label, "IP Adresse:");
   lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 60);
 
   label = lv_label_create(tabInfo);
-  lv_label_set_text_fmt(label, "%s","192.168.178.255");
+  lv_label_set_text_fmt(label, "%s","---");
   lv_obj_align(label, LV_ALIGN_TOP_LEFT, 150, 60);
 
   //Firmware Version
