@@ -289,7 +289,7 @@ void createScreens(void)
   label = lv_label_create(kachelBmsError);
   lv_obj_add_style(label, &style_fontKachel, 0);
   lv_label_set_recolor(label, true);
-  lv_label_set_text_fmt(label, "#252850 BMS Fehler#");
+  lv_label_set_text_fmt(label, "#252850 BMS Status#");
   lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 0);
 
   label = lv_label_create(kachelBmsError);
@@ -571,7 +571,7 @@ void displayNewBscData()
     u8_lRelNr++;
   }
   
-  //Kachel2; BMS Fehler
+  //Kachel2; BMS Status
   label = lv_obj_get_child(kachelBmsError, 1);
   lv_label_set_recolor(label, true);
   if(bo_lBmsHasError) lv_label_set_text_fmt(label, "#FF0000 Error#");
