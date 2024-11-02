@@ -489,9 +489,14 @@ void createScreens(void)
   lv_obj_add_style(label, &style_font1, 0);
   lv_label_set_text(label, "#2196F3 Battery safety controller#");
   lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 10);
-  
-  //----------------------
+ 
+  //Display
+  label = lv_label_create(tabInfo);
+  lv_label_set_text_fmt(label, "Display Firmware Version: %s",BSCD_FW_VERSION);
+  lv_obj_align(label, LV_ALIGN_CENTER, 0, -60);
 
+  //----------------------
+/* TODO Integrieren mit spezial Display FW
   //*** IP-Address ***
   label = lv_label_create(tabInfo);
   lv_label_set_text(label, "IP Adresse:");
@@ -500,7 +505,7 @@ void createScreens(void)
   label = lv_label_create(tabInfo);
   lv_label_set_text_fmt(label, "%s","---");
   lv_obj_align(label, LV_ALIGN_TOP_LEFT, 150, 60);
-/* TODO Integrieren mit spezial Display FW
+
   //WLAN-Mode
   label = lv_label_create(tabInfo);
   lv_label_set_text(label, "WLAN Mode:");
@@ -509,8 +514,7 @@ void createScreens(void)
   label = lv_label_create(tabInfo);
   lv_label_set_text_fmt(label, "%s","---");
   lv_obj_align(label, LV_ALIGN_TOP_LEFT, 150, 80);
-*/
-//TODO Wird nicht dargestellt
+  
   //*** Firmware Version ***
   label = lv_label_create(tabInfo);
   lv_label_set_text(label, "Firmware-Version ");
@@ -521,6 +525,7 @@ void createScreens(void)
   static lv_point_t line_points8[] = {{0, 125}, {130, 125}};
   lv_line_set_points(line1, line_points8, 2);   
   lv_obj_add_style(line1, &style_line2, 0);
+
 /* TODO Integrieren mit spezial Display FW
   //Mainboard
   label = lv_label_create(tabInfo);
@@ -530,7 +535,8 @@ void createScreens(void)
   label = lv_label_create(tabInfo);
   lv_label_set_text_fmt(label, "%s","---");
   lv_obj_align(label, LV_ALIGN_TOP_LEFT, 150, 130);
-*/
+
+
   //Display
   label = lv_label_create(tabInfo);
   lv_label_set_text(label, "Display: ");
@@ -539,7 +545,7 @@ void createScreens(void)
   label = lv_label_create(tabInfo);
   lv_label_set_text_fmt(label, "%s",BSCD_FW_VERSION);
   lv_obj_align(label, LV_ALIGN_TOP_LEFT, 150, 150);
-
+*/
   //----------------------
 
   //Footer
@@ -683,11 +689,11 @@ void displayNewBscData()
 
 
   //****** Tab Info ******
-  
+/* TODO Integrieren mit spezial Display FW
   //IP-Adress
   label = lv_obj_get_child(tabInfo, 3);
   lv_label_set_text_fmt(label, "%s",lDataDisp->bscIpAdr);
-/* TODO Integrieren mit spezial Display FW
+
   //WLAN-Mode
   label = lv_obj_get_child(tabInfo, 4);
   lv_label_set_text_fmt(label, "%s",lDataDisp->bscWlanMode);        
