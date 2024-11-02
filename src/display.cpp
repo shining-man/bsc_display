@@ -540,11 +540,20 @@ void displayNewBscData()
     }
 
     label = lv_obj_get_child(tabBmsOverview, u8_lObjCnt);
-    lv_label_set_recolor(label, true);
-    lv_label_set_text_fmt(label, "%d\n\n%.1f\n%.1f\n%d\n%d\n\n%d\n\n%d\n\n%.1f\n%s\n%s", u8_lObjCnt-1,
-    lDataDisp->bmsTotalVoltage[i]/100.0, lDataDisp->bmsTotalCurrent[i]/100.0, lDataDisp->bmsChargePercentage[i], lDataDisp->bmsMaxCellVoltage[i],
-    lDataDisp->bmsMinCellVoltage[i], lDataDisp->bmsMaxCellDifferenceVoltage[i], lDataDisp->bmsTempature[i][0]/100.0, str_lIsBalance.c_str(),
-    str_lError.c_str());
+
+    if((lDataDisp->bmsMaxCellVoltage[i] != UINT16_MAX) && (lDataDisp->bmsMaxCellVoltage[i] != 0))       //Gerät verfügbar
+    {
+      lv_label_set_recolor(label, true);
+      lv_label_set_text_fmt(label, "%d\n\n%.1f\n%.1f\n%d\n%d\n\n%d\n\n%d\n\n%.1f\n%s\n%s", u8_lObjCnt-1,
+      lDataDisp->bmsTotalVoltage[i]/100.0, lDataDisp->bmsTotalCurrent[i]/100.0, lDataDisp->bmsChargePercentage[i], lDataDisp->bmsMaxCellVoltage[i],
+      lDataDisp->bmsMinCellVoltage[i], lDataDisp->bmsMaxCellDifferenceVoltage[i], lDataDisp->bmsTempature[i][0]/100.0, str_lIsBalance.c_str(),
+      str_lError.c_str());
+    }
+    else                                                              //Gerät nicht verfügbar -> Spalte ausblenden
+    {
+      lv_label_set_text_fmt(label, "%d", u8_lObjCnt-1);               //Kopfzeile setzen
+    }
+
     u8_lObjCnt++;
   }
 
