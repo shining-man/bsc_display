@@ -468,7 +468,7 @@ void createScreens(void)
 
   //*** Firmware Version ***
   label = lv_label_create(tabInfo);
-  lv_label_set_text(label, "Firmware-Version " );
+  lv_label_set_text(label, "Firmware-Version ");
   lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 110);
 
   //Underlined
@@ -479,7 +479,7 @@ void createScreens(void)
  
   //Display
   label = lv_label_create(tabInfo);
-  lv_label_set_text(label, "Display: " );
+  lv_label_set_text(label, "Display: ");
   lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 150);
 
   label = lv_label_create(tabInfo);
