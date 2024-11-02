@@ -370,37 +370,37 @@ void createScreens(void)
    * Tab Zellspannungen
    ****************************************/
   uint16_t xPos, yPos, bmsNr;
+
   label = lv_label_create(tabZellSpg);
-  lv_label_set_text_fmt(label, "\n\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d",1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16);
+  lv_label_set_text_fmt(label, "%s\n\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d","mV",1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16);
   lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 0);
 
-  yPos=0;
   bmsNr=0;
   for(uint8_t n=0;n<8;n++)
   {
-    xPos=45*n+26;
+    xPos=44*n+33;
     if(n>4)xPos+=8;
     label = lv_label_create(tabZellSpg);
-    lv_label_set_text_fmt(label, "%d\n\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d",bmsNr,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-    lv_obj_align(label, LV_ALIGN_TOP_LEFT, xPos, yPos);
+    lv_label_set_text_fmt(label, "%d",bmsNr);
+    lv_obj_align(label, LV_ALIGN_TOP_LEFT, xPos, 0);
     bmsNr++;
   }
 
-  //Draw line
+  //Draw line top horizontal
   line1 = lv_line_create(tabZellSpg);
   static lv_point_t line_points[] = {{0, 22}, {385, 22}};
   lv_line_set_points(line1, line_points, 2);   
   lv_obj_add_style(line1, &style_line, 0);
 
-  //Draw line
+  //Draw line left vertical
   line1 = lv_line_create(tabZellSpg);
-  static lv_point_t line_points2[] = {{20, 0}, {20, 285}};
+  static lv_point_t line_points2[] = {{28, 0}, {28, 285}};
   lv_line_set_points(line1, line_points2, 2);   
   lv_obj_add_style(line1, &style_line, 0);
 
-  //Draw line
+  //Draw line right vertical
   line1 = lv_line_create(tabZellSpg);
-  static lv_point_t line_points3[] = {{250, 0}, {250, 285}};
+  static lv_point_t line_points3[] = {{253, 0}, {253, 285}};
   lv_line_set_points(line1, line_points3, 2);   
   lv_obj_add_style(line1, &style_line2, 0);
 
