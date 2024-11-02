@@ -33,7 +33,8 @@ static struct data_s *lDataDisp;
 
 lv_obj_t * tabHome;
 lv_obj_t * tabZellSpg;
-lv_obj_t * tabBmsOverview;
+lv_obj_t * tabSerBmsOverview;
+lv_obj_t * tabBTBmsOverview;
 lv_obj_t * tabInfo;
 
 lv_obj_t * kachelAlarme;
@@ -194,12 +195,11 @@ void createScreens(void)
 
   tabHome = lv_tabview_add_tab(tabview, "Home");
   lv_obj_set_scrollbar_mode(tabHome, LV_SCROLLBAR_MODE_OFF);
-  tabBmsOverview = lv_tabview_add_tab(tabview, "BMS");
+  tabSerBmsOverview = lv_tabview_add_tab(tabview, "Serial\n BMS");
+  tabBTBmsOverview = lv_tabview_add_tab(tabview, "  BT\nBMS");
   tabZellSpg = lv_tabview_add_tab(tabview, "Cell\nSpg.");
   tabInfo = lv_tabview_add_tab(tabview, "Info");
 
-  lv_obj_set_style_pad_left(tabBmsOverview,2, 0);
-  lv_obj_set_style_pad_right(tabBmsOverview,2, 0);
   lv_obj_clear_flag(lv_tabview_get_content(tabview), LV_OBJ_FLAG_SCROLLABLE);
 
 
@@ -248,8 +248,8 @@ void createScreens(void)
   lv_obj_add_style(label, &style_font1, 0);
   lv_label_set_text(label, "#2196F3 Battery safety controller#");
   lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 10);
-
-
+  
+  
   //Kachel 1
   kachelAlarme = lv_obj_create(tabHome);  
   lv_obj_set_style_pad_left(kachelAlarme,10,0);
@@ -406,42 +406,71 @@ void createScreens(void)
 
 
 
+//TODO Total Voltage tut nicht -> SerialDebug Ausgabe
   /****************************************
-   * Tab BMS Overview
+   * Tab Serial-BMS Overview
    ****************************************/
-  label = lv_label_create(tabBmsOverview);
-  lv_label_set_text_fmt(label, "\n\nSpg. (V)\nCur. (A)\nSoC (%%)\nMax Cell\n(mV)\nMin Cell\n(mV)\nMax Cell\nDiff (mV\nTemp °C\nBalance\nFehler");
+  label = lv_label_create(tabSerBmsOverview);
+  lv_label_set_text_fmt(label, "\n\nSpg. (V)\nCur. (A)\nSoC (%%)\nMax Cell\n(mV)\nMin Cell\n(mV)\nMax Cell\nDiff (mV)\nTemp °C\nBalance\nFehler");
   lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 0);
-    
+  
   yPos=0;
   bmsNr=0;
-  for(uint8_t n=0;n<8;n++)
+  for(uint8_t n=0;n<5;n++)
   {
-    xPos=44*n+66;
+    xPos=44*n+70;
     if(n>4)xPos+=2;
-    label = lv_label_create(tabBmsOverview);
+    label = lv_label_create(tabSerBmsOverview);
     lv_label_set_text_fmt(label, "%d",bmsNr);
     lv_obj_align(label, LV_ALIGN_TOP_LEFT, xPos, yPos);
     bmsNr++;
   }
 
-  //Draw line
-  line1 = lv_line_create(tabBmsOverview);
-  static lv_point_t line_points4[] = {{0, 22}, {415, 22}};
-  lv_line_set_points(line1, line_points4, 2);   
+  //Draw line horizontal
+  line1 = lv_line_create(tabSerBmsOverview);
+  static lv_point_t line_points6[] = {{0, 22}, {286, 22}};
+  lv_line_set_points(line1, line_points6, 2);   
   lv_obj_add_style(line1, &style_line, 0);
 
-  //Draw line
-  line1 = lv_line_create(tabBmsOverview);
-  static lv_point_t line_points5[] = {{62, 0}, {62, 285}};
+  //Draw line vertical
+  line1 = lv_line_create(tabSerBmsOverview);
+  static lv_point_t line_points7[] = {{66, 0}, {66, 228}};
+  lv_line_set_points(line1, line_points7, 2);   
+  lv_obj_add_style(line1, &style_line, 0);
+
+
+
+  /****************************************
+   * Tab BT-BMS Overview
+   ****************************************/
+  label = lv_label_create(tabBTBmsOverview);
+  lv_label_set_text_fmt(label, "\n\nSpg. (V)\nCur. (A)\nSoC (%%)\nMax Cell\n(mV)\nMin Cell\n(mV)\nMax Cell\nDiff (mV)\nTemp °C\nBalance\nFehler");
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 0);
+    
+  yPos=0;
+  bmsNr=0;
+  for(uint8_t n=5;n<8;n++)
+  {
+    xPos=44*(n-5)+70;
+    if(n>4)xPos+=2;
+    label = lv_label_create(tabBTBmsOverview);
+    lv_label_set_text_fmt(label, "%d",bmsNr);
+    lv_obj_align(label, LV_ALIGN_TOP_LEFT, xPos, yPos);
+    bmsNr++;
+  }
+
+  //Draw line horizontal
+  line1 = lv_line_create(tabBTBmsOverview);
+  static lv_point_t line_points4[] = {{0, 22}, {198, 22}};
+  lv_line_set_points(line1, line_points4, 2);
+  lv_obj_add_style(line1, &style_line, 0);
+
+  //Draw line vertical
+  line1 = lv_line_create(tabBTBmsOverview);
+  static lv_point_t line_points5[] = {{66, 0}, {66, 228}};
   lv_line_set_points(line1, line_points5, 2);   
   lv_obj_add_style(line1, &style_line, 0);
 
-  //Draw line
-  line1 = lv_line_create(tabBmsOverview);
-  static lv_point_t line_points6[] = {{285, 0}, {285, 285}};
-  lv_line_set_points(line1, line_points6, 2);   
-  lv_obj_add_style(line1, &style_line2, 0);
 
 
   /****************************************
@@ -525,10 +554,11 @@ void displayNewBscData()
     u8_lObjCnt++;
   }
 
-  //BMS Overview
+  //Serial-BMS Overview
   u8_lObjCnt=1;
   String str_lIsBalance, str_lError;
-  for(uint8_t i=0;i<8;i++)
+
+  for(uint8_t i=0;i<5;i++)
   {
     str_lIsBalance="AUS";
     str_lError="#00ff00 OK#";
@@ -539,7 +569,7 @@ void displayNewBscData()
       bo_lBmsHasError=true;
     }
 
-    label = lv_obj_get_child(tabBmsOverview, u8_lObjCnt);
+    label = lv_obj_get_child(tabSerBmsOverview, u8_lObjCnt);
 
     if((lDataDisp->bmsMaxCellVoltage[i] != UINT16_MAX) && (lDataDisp->bmsMaxCellVoltage[i] != 0))       //Gerät verfügbar
     {
@@ -557,7 +587,38 @@ void displayNewBscData()
     u8_lObjCnt++;
   }
 
+  //BT-BMS Overview
+  u8_lObjCnt=1;
+  
+  for(uint8_t i=5;i<8;i++)
+  {
+    str_lIsBalance="AUS";
+    str_lError="#00ff00 OK#";
+    if(lDataDisp->bmsIsBalancingActive[i]>0)str_lIsBalance="EIN";
+    if(lDataDisp->bmsErrors[i]>0)
+    {
+      str_lError="#ff0000 ERR#";
+      bo_lBmsHasError=true;
+    }
 
+    label = lv_obj_get_child(tabBTBmsOverview, u8_lObjCnt);
+
+    if((lDataDisp->bmsMaxCellVoltage[i] != UINT16_MAX) && (lDataDisp->bmsMaxCellVoltage[i] != 0))       //Gerät verfügbar
+    {
+      lv_label_set_recolor(label, true);
+      lv_label_set_text_fmt(label, "%d\n\n%.1f\n%.1f\n%d\n%d\n\n%d\n\n%d\n\n%.1f\n%s\n%s", u8_lObjCnt-1,
+      lDataDisp->bmsTotalVoltage[i]/100.0, lDataDisp->bmsTotalCurrent[i]/100.0, lDataDisp->bmsChargePercentage[i], lDataDisp->bmsMaxCellVoltage[i],
+      lDataDisp->bmsMinCellVoltage[i], lDataDisp->bmsMaxCellDifferenceVoltage[i], lDataDisp->bmsTempature[i][0]/100.0, str_lIsBalance.c_str(),
+      str_lError.c_str());
+    }
+    else                                                              //Gerät nicht verfügbar -> Spalte ausblenden
+    {
+      lv_label_set_text_fmt(label, "%d", u8_lObjCnt-1);               //Kopfzeile setzen
+    }
+
+    u8_lObjCnt++;
+  }
+  
   //Kachel1; Alarme 
   label = lv_obj_get_child(kachelAlarme, 2);
   uint16_t u16_lAlarme = lDataDisp->bscAlarms;
@@ -605,4 +666,3 @@ void displayNewBscData()
   //Displaytimeout
   u8_mPowersaveTime=lDataDisp->displayTimeout;
 }
-
