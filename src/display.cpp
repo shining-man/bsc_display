@@ -563,12 +563,12 @@ void displayNewBscData()
 
   //Relais
   uint8_t u8_lRelais = lDataDisp->bscRelais;
-  uint8_t u8_lRelNr=5;
+  uint8_t u8_lRelNr=0;
   for(uint8_t i=0;i<6;i++)
   {
     if((u8_lRelais>>i)&0x1) lv_obj_set_style_bg_color(relaisState[u8_lRelNr],LV_COLOR_MAKE(0xff, 0x00, 0x00),LV_PART_MAIN);
     else lv_obj_set_style_bg_color(relaisState[u8_lRelNr],LV_COLOR_MAKE(0x00, 0xff, 0x00),LV_PART_MAIN);
-    u8_lRelNr--;
+    u8_lRelNr++;
   }
   
   //Kachel2; BMS Fehler
