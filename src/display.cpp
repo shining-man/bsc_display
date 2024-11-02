@@ -508,11 +508,20 @@ void displayNewBscData()
   for(uint8_t i=0;i<8;i++)
   {
     label = lv_obj_get_child(tabZellSpg, u8_lObjCnt);
+
+    if((lDataDisp->bmsCellVoltage[i][0] != UINT16_MAX) && (lDataDisp->bmsCellVoltage[i][0] != 0))       //Gerät verfügbar
+    {      
     lv_label_set_text_fmt(label, "%d\n\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d", u8_lObjCnt-1,
     lDataDisp->bmsCellVoltage[i][0], lDataDisp->bmsCellVoltage[i][1], lDataDisp->bmsCellVoltage[i][2], lDataDisp->bmsCellVoltage[i][3],
     lDataDisp->bmsCellVoltage[i][4], lDataDisp->bmsCellVoltage[i][5], lDataDisp->bmsCellVoltage[i][6], lDataDisp->bmsCellVoltage[i][7],
     lDataDisp->bmsCellVoltage[i][8], lDataDisp->bmsCellVoltage[i][9], lDataDisp->bmsCellVoltage[i][10], lDataDisp->bmsCellVoltage[i][11],
     lDataDisp->bmsCellVoltage[i][12], lDataDisp->bmsCellVoltage[i][13], lDataDisp->bmsCellVoltage[i][14], lDataDisp->bmsCellVoltage[i][15]);
+    }
+    else                                                              //Gerät nicht verfügbar -> Spalte ausblenden
+    {
+      lv_label_set_text_fmt(label, "%d", u8_lObjCnt-1);               //Kopfzeile setzen
+    }
+
     u8_lObjCnt++;
   }
 
