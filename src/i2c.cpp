@@ -154,9 +154,11 @@ void IRAM_ATTR processRxData()
           case BSC_ALARMS:
             memcpy(&lData->bscAlarms, &i2cRxBuf[RXBUFF_OFFSET], 2);
             break;
+
           case BSC_IP_ADDR:
             memcpy(&lData->bscIpAdr, &i2cRxBuf[RXBUFF_OFFSET], 16);
             break;
+            
           case BSC_RELAIS:
             memcpy(&lData->bscRelais, &i2cRxBuf[RXBUFF_OFFSET], 1);
             break;
