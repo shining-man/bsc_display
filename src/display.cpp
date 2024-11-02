@@ -362,7 +362,7 @@ void createScreens(void)
     label = lv_label_create(relaisState[i]);
     lv_obj_set_scrollbar_mode(label, LV_SCROLLBAR_MODE_OFF);
     lv_obj_add_style(label, &style_fontKachel, 0);
-    lv_label_set_text_fmt(label, "Rel %i",i);
+    lv_label_set_text_fmt(label, "Rel %i",i+1);
     lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
   }
 
