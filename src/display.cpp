@@ -336,18 +336,24 @@ void createScreens(void)
   label = lv_label_create(kachelInverter2);
   lv_obj_add_style(label, &style_fontKachel, 0);
   lv_label_set_recolor(label, true);
-  lv_label_set_text_fmt(label, "#252850 Wechselrichter\n           max#");
+  lv_label_set_text_fmt(label, "#252850 Wechselrichter#");
   lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 0);
 
   label = lv_label_create(kachelInverter2);
   lv_obj_add_style(label, &style_fontKachel, 0);
+  lv_label_set_recolor(label, true);
+  lv_label_set_text_fmt(label, "#252850 max#");
+  lv_obj_align(label, LV_ALIGN_TOP_MID, 2, 15);
+
+  label = lv_label_create(kachelInverter2);
+  lv_obj_add_style(label, &style_fontKachel, 0);
   lv_label_set_text_fmt(label, "Lade.\nEntl.");
-  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 39);
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 8, 33);
 
   label = lv_label_create(kachelInverter2);
   lv_obj_add_style(label, &style_fontKachel, 0);
   lv_label_set_text_fmt(label, "%.2f A\n%.2f A",0,0);
-  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 65, 39);
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 75, 33);
 
   //Relais
   for(uint8_t i=0;i<6;i++)
@@ -494,7 +500,17 @@ void createScreens(void)
   label = lv_label_create(tabInfo);
   lv_label_set_text_fmt(label, "%s","---");
   lv_obj_align(label, LV_ALIGN_TOP_LEFT, 150, 60);
+/* TODO Integrieren mit spezial Display FW
+  //WLAN-Mode
+  label = lv_label_create(tabInfo);
+  lv_label_set_text(label, "WLAN Mode:");
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 80);
 
+  label = lv_label_create(tabInfo);
+  lv_label_set_text_fmt(label, "%s","---");
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 150, 80);
+*/
+//TODO Wird nicht dargestellt
   //*** Firmware Version ***
   label = lv_label_create(tabInfo);
   lv_label_set_text(label, "Firmware-Version ");
@@ -505,7 +521,16 @@ void createScreens(void)
   static lv_point_t line_points8[] = {{0, 125}, {130, 125}};
   lv_line_set_points(line1, line_points8, 2);   
   lv_obj_add_style(line1, &style_line2, 0);
- 
+/* TODO Integrieren mit spezial Display FW
+  //Mainboard
+  label = lv_label_create(tabInfo);
+  lv_label_set_text(label, "Mainboard: " );
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 130);
+
+  label = lv_label_create(tabInfo);
+  lv_label_set_text_fmt(label, "%s","---");
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 150, 130);
+*/
   //Display
   label = lv_label_create(tabInfo);
   lv_label_set_text(label, "Display: ");
@@ -653,7 +678,7 @@ void displayNewBscData()
   lv_label_set_text_fmt(label, "%.2f V\n%.2f A\n%d %%",(float)lDataDisp->inverterVoltage/100.0,(float)lDataDisp->inverterCurrent/10.0,lDataDisp->inverterSoc);
 
   //Kachel4; Inverter 2
-  label = lv_obj_get_child(kachelInverter2, 2);
+  label = lv_obj_get_child(kachelInverter2, 3);
   lv_label_set_text_fmt(label, "%d A\n%d A\n",lDataDisp->inverterChargeCurrent,lDataDisp->inverterDischargeCurrent);
 
 
@@ -662,7 +687,15 @@ void displayNewBscData()
   //IP-Adress
   label = lv_obj_get_child(tabInfo, 3);
   lv_label_set_text_fmt(label, "%s",lDataDisp->bscIpAdr);
+/* TODO Integrieren mit spezial Display FW
+  //WLAN-Mode
+  label = lv_obj_get_child(tabInfo, 4);
+  lv_label_set_text_fmt(label, "%s",lDataDisp->bscWlanMode);        
 
+  //Mainboard FW-Version
+  label = lv_obj_get_child(tabInfo, 5);
+  lv_label_set_text_fmt(label, "%s",lDataDisp->bscFwVersion);
+*/
   //Displaytimeout
   u8_mPowersaveTime=lDataDisp->displayTimeout;
 }
