@@ -26,7 +26,7 @@ struct data_s
   uint8_t    bmsMinVoltageCellNumber[BT_DEVICES_COUNT+SERIAL_BMS_DEVICES_COUNT];     //    x    |        |        |
   uint8_t    bmsIsBalancingActive[BT_DEVICES_COUNT+SERIAL_BMS_DEVICES_COUNT];        //    x    |        |        |
   int16_t    bmsBalancingCurrent[BT_DEVICES_COUNT+SERIAL_BMS_DEVICES_COUNT];         //    x    |        |        |
-  int16_t    bmsTempature[BT_DEVICES_COUNT+SERIAL_BMS_DEVICES_COUNT][3];             //    2    |   3    |   3    |
+  int16_t    bmsTemperature[BT_DEVICES_COUNT+SERIAL_BMS_DEVICES_COUNT][3];             //    2    |   3    |   3    |
   uint8_t    bmsChargePercentage[BT_DEVICES_COUNT+SERIAL_BMS_DEVICES_COUNT];         //         |   x    |   x    |
   uint32_t   bmsErrors[BT_DEVICES_COUNT+SERIAL_BMS_DEVICES_COUNT];                   //    *    |   x    |   x    |
   unsigned long bmsLastDataMillis[BT_DEVICES_COUNT+SERIAL_BMS_DEVICES_COUNT];        //    x    |   x    |   x    |

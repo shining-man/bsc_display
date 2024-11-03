@@ -586,7 +586,7 @@ void displayNewBscData()
 
   //Kachel3; Inverter 
   label = lv_obj_get_child(kachelInverter, 2);
-  lv_label_set_text_fmt(label, "%.2f V\n%.2f A\n%d %%",(float)lDataDisp->inverterVoltage/100.0,(float)lDataDisp->inverterCurrent/10.0,lDataDisp->inverterSoc);
+  lv_label_set_text_fmt(label, "%.2f V\n%.2f A\n%d %%",lDataDisp->inverterVoltage/100.0,lDataDisp->inverterCurrent/10.0,lDataDisp->inverterSoc);
 
   //Kachel4; Inverter 2
   label = lv_obj_get_child(kachelInverter2, 3);
@@ -601,7 +601,7 @@ void displayNewBscData()
     else lv_obj_set_style_bg_color(relaisState[u8_lRelNr],LV_COLOR_MAKE(0x00, 0xff, 0x00),LV_PART_MAIN);
     u8_lRelNr++;
   }
-  
+
 
   //*** Serial-BMS Overview ***
   u8_lObjCnt=1;
@@ -625,7 +625,7 @@ void displayNewBscData()
       lv_label_set_recolor(label, true);
       lv_label_set_text_fmt(label, "%d\n\n%.1f\n%.1f\n%d\n%d\n\n%d\n\n%d\n\n%.1f\n%s\n%s", u8_lObjCnt-1,
       lDataDisp->bmsTotalVoltage[i]/100.0, lDataDisp->bmsTotalCurrent[i]/100.0, lDataDisp->bmsChargePercentage[i], lDataDisp->bmsMaxCellVoltage[i],
-      lDataDisp->bmsMinCellVoltage[i], lDataDisp->bmsMaxCellDifferenceVoltage[i], lDataDisp->bmsTempature[i][0]/100.0, str_lIsBalance.c_str(),
+      lDataDisp->bmsMinCellVoltage[i], lDataDisp->bmsMaxCellDifferenceVoltage[i], lDataDisp->bmsTemperature[i][0]/100.0, str_lIsBalance.c_str(),
       str_lError.c_str());
     }
     else                                                              //Gerät nicht verfügbar -> Spalte ausblenden
@@ -658,7 +658,7 @@ void displayNewBscData()
       lv_label_set_recolor(label, true);
       lv_label_set_text_fmt(label, "%d\n\n%.1f\n%.1f\n%d\n%d\n\n%d\n\n%d\n\n%.1f\n%s\n%s", u8_lObjCnt-1,
       lDataDisp->bmsTotalVoltage[i]/100.0, lDataDisp->bmsTotalCurrent[i]/100.0, lDataDisp->bmsChargePercentage[i], lDataDisp->bmsMaxCellVoltage[i],
-      lDataDisp->bmsMinCellVoltage[i], lDataDisp->bmsMaxCellDifferenceVoltage[i], lDataDisp->bmsTempature[i][0]/100.0, str_lIsBalance.c_str(),
+      lDataDisp->bmsMinCellVoltage[i], lDataDisp->bmsMaxCellDifferenceVoltage[i], lDataDisp->bmsTemperature[i][0]/100.0, str_lIsBalance.c_str(),
       str_lError.c_str());
     }
     else                                                              //Gerät nicht verfügbar -> Spalte ausblenden
