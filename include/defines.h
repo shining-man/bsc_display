@@ -5,7 +5,7 @@
 
 
 //General
-#define BSCD_FW_VERSION      "1.0.2_T3"
+#define BSCD_FW_VERSION      "1.0.3"
 
 //Bluetooth
 #define BT_DEVICES_COUNT             5
