@@ -563,29 +563,47 @@ void displayNewBscData()
   uint8_t u8_lObjCnt;
   bool bo_lBmsHasError=false;
 
-  //Zellspannungen
-  u8_lObjCnt=1;
-  for(uint8_t i=0;i<8;i++)
+  // *** HOME SCREEN ***
+
+  //Kachel1; Alarme 
+  label = lv_obj_get_child(kachelAlarme, 2);
+  uint16_t u16_lAlarme = lDataDisp->bscAlarms;
+  uint8_t alms[10];
+  for(uint8_t i=0;i<10;i++)
   {
-    label = lv_obj_get_child(tabZellSpg, u8_lObjCnt);
-
-    if((lDataDisp->bmsCellVoltage[i][0] != UINT16_MAX) && (lDataDisp->bmsCellVoltage[i][0] != 0))       //Gerät verfügbar
-    {      
-      lv_label_set_text_fmt(label, "%d\n\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d", u8_lObjCnt-1,
-      lDataDisp->bmsCellVoltage[i][0], lDataDisp->bmsCellVoltage[i][1], lDataDisp->bmsCellVoltage[i][2], lDataDisp->bmsCellVoltage[i][3],
-      lDataDisp->bmsCellVoltage[i][4], lDataDisp->bmsCellVoltage[i][5], lDataDisp->bmsCellVoltage[i][6], lDataDisp->bmsCellVoltage[i][7],
-      lDataDisp->bmsCellVoltage[i][8], lDataDisp->bmsCellVoltage[i][9], lDataDisp->bmsCellVoltage[i][10], lDataDisp->bmsCellVoltage[i][11],
-      lDataDisp->bmsCellVoltage[i][12], lDataDisp->bmsCellVoltage[i][13], lDataDisp->bmsCellVoltage[i][14], lDataDisp->bmsCellVoltage[i][15]);
-    }
-    else                                                              //Gerät nicht verfügbar -> Spalte ausblenden
-    {
-      lv_label_set_text_fmt(label, "%d", u8_lObjCnt-1);               //Kopfzeile setzen
-    }
-
-    u8_lObjCnt++;
+    if((u16_lAlarme & (1<<i)) == (1<<i)) alms[i]=1;
+    else alms[i]=0;
   }
+  lv_label_set_text_fmt(label, "%d  %d  %d  %d  %d\n%d  %d  %d  %d  %d",
+    alms[0],alms[1],alms[2],alms[3],alms[4],alms[5],alms[6],alms[7],alms[8],alms[9]);
 
-  //Serial-BMS Overview
+  //Kachel2; BMS Status
+  label = lv_obj_get_child(kachelBmsError, 1);
+  lv_label_set_recolor(label, true);
+  if(bo_lBmsHasError) lv_label_set_text_fmt(label, "#FF0000 Error#");
+  else lv_label_set_text_fmt(label, "#00FF00 OK#");
+  //lv_label_set_text(labelDisp, "test");
+
+  //Kachel3; Inverter 
+  label = lv_obj_get_child(kachelInverter, 2);
+  lv_label_set_text_fmt(label, "%.2f V\n%.2f A\n%d %%",(float)lDataDisp->inverterVoltage/100.0,(float)lDataDisp->inverterCurrent/10.0,lDataDisp->inverterSoc);
+
+  //Kachel4; Inverter 2
+  label = lv_obj_get_child(kachelInverter2, 3);
+  lv_label_set_text_fmt(label, "%d A\n%d A\n",lDataDisp->inverterChargeCurrent,lDataDisp->inverterDischargeCurrent);
+
+  //Relais
+  uint8_t u8_lRelais = lDataDisp->bscRelais;
+  uint8_t u8_lRelNr=0;
+  for(uint8_t i=0;i<6;i++)
+  {
+    if((u8_lRelais>>i)&0x1) lv_obj_set_style_bg_color(relaisState[u8_lRelNr],LV_COLOR_MAKE(0xff, 0x00, 0x00),LV_PART_MAIN);
+    else lv_obj_set_style_bg_color(relaisState[u8_lRelNr],LV_COLOR_MAKE(0x00, 0xff, 0x00),LV_PART_MAIN);
+    u8_lRelNr++;
+  }
+  
+
+  //*** Serial-BMS Overview ***
   u8_lObjCnt=1;
   String str_lIsBalance, str_lError;
 
@@ -618,7 +636,8 @@ void displayNewBscData()
     u8_lObjCnt++;
   }
 
-  //BT-BMS Overview
+
+  //*** BT-BMS Overview ***
   u8_lObjCnt=1;
   
   for(uint8_t i=5;i<8;i++)
@@ -649,46 +668,32 @@ void displayNewBscData()
 
     u8_lObjCnt++;
   }
-  
-  //Kachel1; Alarme 
-  label = lv_obj_get_child(kachelAlarme, 2);
-  uint16_t u16_lAlarme = lDataDisp->bscAlarms;
-  uint8_t alms[10];
-  for(uint8_t i=0;i<10;i++)
+
+
+  //*** Zellspannungen ***
+  u8_lObjCnt=1;
+  for(uint8_t i=0;i<8;i++)
   {
-    if((u16_lAlarme & (1<<i)) == (1<<i)) alms[i]=1;
-    else alms[i]=0;
-  }
-  lv_label_set_text_fmt(label, "%d  %d  %d  %d  %d\n%d  %d  %d  %d  %d",
-    alms[0],alms[1],alms[2],alms[3],alms[4],alms[5],alms[6],alms[7],alms[8],alms[9]);
+    label = lv_obj_get_child(tabZellSpg, u8_lObjCnt);
 
-  //Relais
-  uint8_t u8_lRelais = lDataDisp->bscRelais;
-  uint8_t u8_lRelNr=0;
-  for(uint8_t i=0;i<6;i++)
-  {
-    if((u8_lRelais>>i)&0x1) lv_obj_set_style_bg_color(relaisState[u8_lRelNr],LV_COLOR_MAKE(0xff, 0x00, 0x00),LV_PART_MAIN);
-    else lv_obj_set_style_bg_color(relaisState[u8_lRelNr],LV_COLOR_MAKE(0x00, 0xff, 0x00),LV_PART_MAIN);
-    u8_lRelNr++;
+    if((lDataDisp->bmsCellVoltage[i][0] != UINT16_MAX) && (lDataDisp->bmsCellVoltage[i][0] != 0))       //Gerät verfügbar
+    {      
+      lv_label_set_text_fmt(label, "%d\n\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d", u8_lObjCnt-1,
+      lDataDisp->bmsCellVoltage[i][0], lDataDisp->bmsCellVoltage[i][1], lDataDisp->bmsCellVoltage[i][2], lDataDisp->bmsCellVoltage[i][3],
+      lDataDisp->bmsCellVoltage[i][4], lDataDisp->bmsCellVoltage[i][5], lDataDisp->bmsCellVoltage[i][6], lDataDisp->bmsCellVoltage[i][7],
+      lDataDisp->bmsCellVoltage[i][8], lDataDisp->bmsCellVoltage[i][9], lDataDisp->bmsCellVoltage[i][10], lDataDisp->bmsCellVoltage[i][11],
+      lDataDisp->bmsCellVoltage[i][12], lDataDisp->bmsCellVoltage[i][13], lDataDisp->bmsCellVoltage[i][14], lDataDisp->bmsCellVoltage[i][15]);
+    }
+    else                                                              //Gerät nicht verfügbar -> Spalte ausblenden
+    {
+      lv_label_set_text_fmt(label, "%d", u8_lObjCnt-1);               //Kopfzeile setzen
+    }
+
+    u8_lObjCnt++;
   }
   
-  //Kachel2; BMS Status
-  label = lv_obj_get_child(kachelBmsError, 1);
-  lv_label_set_recolor(label, true);
-  if(bo_lBmsHasError) lv_label_set_text_fmt(label, "#FF0000 Error#");
-  else lv_label_set_text_fmt(label, "#00FF00 OK#");
-  //lv_label_set_text(labelDisp, "test");
 
-  //Kachel3; Inverter 
-  label = lv_obj_get_child(kachelInverter, 2);
-  lv_label_set_text_fmt(label, "%.2f V\n%.2f A\n%d %%",(float)lDataDisp->inverterVoltage/100.0,(float)lDataDisp->inverterCurrent/10.0,lDataDisp->inverterSoc);
-
-  //Kachel4; Inverter 2
-  label = lv_obj_get_child(kachelInverter2, 3);
-  lv_label_set_text_fmt(label, "%d A\n%d A\n",lDataDisp->inverterChargeCurrent,lDataDisp->inverterDischargeCurrent);
-
-
-  //****** Tab Info ******
+  //*** Tab Info ***
 /* TODO Integrieren mit spezial Display FW
   //IP-Adress
   label = lv_obj_get_child(tabInfo, 3);
