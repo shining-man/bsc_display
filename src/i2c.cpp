@@ -111,7 +111,7 @@ void IRAM_ATTR processRxData()
           break;
 
         case BMS_TEMPERATURE:
-          memcpy(&lData->bmsTempature[u8_lBmsNr], &i2cRxBuf[RXBUFF_OFFSET], 6);
+          memcpy(&lData->bmsTemperature[u8_lBmsNr], &i2cRxBuf[RXBUFF_OFFSET], 6);
           break;
 
         case BMS_CHARGE_PERCENT:
