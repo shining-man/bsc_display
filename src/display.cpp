@@ -412,7 +412,6 @@ void createScreens(void)
 
 
 
-//TODO Total Voltage tut nicht -> SerialDebug Ausgabe
   /****************************************
    * Tab Serial-BMS Overview
    ****************************************/
@@ -563,8 +562,9 @@ void displayNewBscData()
   uint8_t u8_lObjCnt;
   bool bo_lBmsHasError=false;
 
-  // *** HOME SCREEN ***
-
+  /****************************************
+   * Tab Home Overview
+   ****************************************/
   //Kachel1; Alarme 
   label = lv_obj_get_child(kachelAlarme, 2);
   uint16_t u16_lAlarme = lDataDisp->bscAlarms;
@@ -603,7 +603,9 @@ void displayNewBscData()
   }
 
 
-  //*** Serial-BMS Overview ***
+  /****************************************
+   * Tab Serial-BMS Overview
+   ****************************************/
   u8_lObjCnt=1;
   String str_lIsBalance, str_lError;
 
@@ -619,7 +621,7 @@ void displayNewBscData()
     }
 
     label = lv_obj_get_child(tabSerBmsOverview, u8_lObjCnt);
-
+//TODO Zeitstempel nutzen (noch nicht in i2c drin auf Display-Seite)
     if((lDataDisp->bmsMaxCellVoltage[i] != UINT16_MAX) && (lDataDisp->bmsMaxCellVoltage[i] != 0))       //Gerät verfügbar
     {
       lv_label_set_recolor(label, true);
@@ -637,7 +639,9 @@ void displayNewBscData()
   }
 
 
-  //*** BT-BMS Overview ***
+  /****************************************
+   * Tab BT-BMS Overview
+   ****************************************/
   u8_lObjCnt=1;
   
   for(uint8_t i=5;i<8;i++)
@@ -670,7 +674,9 @@ void displayNewBscData()
   }
 
 
-  //*** Zellspannungen ***
+  /****************************************
+   * Tab Zellspannungen Overview
+   ****************************************/
   u8_lObjCnt=1;
   for(uint8_t i=0;i<8;i++)
   {
@@ -693,7 +699,9 @@ void displayNewBscData()
   }
   
 
-  //*** Tab Info ***
+  /****************************************
+   * Tab BT-BMS Overview
+   ****************************************/
 /* TODO Integrieren mit spezial Display FW
   //IP-Adress
   label = lv_obj_get_child(tabInfo, 3);

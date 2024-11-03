@@ -154,7 +154,7 @@ void IRAM_ATTR processRxData()
           case BSC_ALARMS:
             memcpy(&lData->bscAlarms, &i2cRxBuf[RXBUFF_OFFSET], 2);
             break;
-/*TODO Für spezial Display Version
+/*TODO Integrieren mit spezial Display FW
           case BSC_IP_ADDR:
             memcpy(&lData->bscIpAdr, &i2cRxBuf[RXBUFF_OFFSET], 16);
             break;
