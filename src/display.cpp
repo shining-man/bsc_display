@@ -195,13 +195,15 @@ void createScreens(void)
 
   tabHome = lv_tabview_add_tab(tabview, "Home");
   lv_obj_set_scrollbar_mode(tabHome, LV_SCROLLBAR_MODE_OFF);
-  tabSerBmsOverview = lv_tabview_add_tab(tabview, "Serial\n BMS");
-  tabBTBmsOverview = lv_tabview_add_tab(tabview, "  BT\nBMS");
+  tabSerBmsOverview = lv_tabview_add_tab(tabview, "DD 1");
+  tabBTBmsOverview = lv_tabview_add_tab(tabview, "DD 2");
   tabZellSpg = lv_tabview_add_tab(tabview, "Cell\nSpg.");
   tabInfo = lv_tabview_add_tab(tabview, "Info");
 
   lv_obj_clear_flag(lv_tabview_get_content(tabview), LV_OBJ_FLAG_SCROLLABLE);
 
+  lv_obj_add_event_cb(tabHome, scroll_begin_event, LV_EVENT_SCROLL_BEGIN, NULL);
+  lv_obj_clear_flag(tabHome, LV_OBJ_FLAG_SCROLLABLE);
 
   //Styles
   //line
@@ -332,6 +334,8 @@ void createScreens(void)
   lv_obj_add_style(kachelInverter2, &style_kachel, 0);
   lv_obj_set_size(kachelInverter2, 150, 95);
   lv_obj_align(kachelInverter2, LV_ALIGN_CENTER, 90, 60);
+  lv_obj_add_event_cb(kachelInverter2, scroll_begin_event, LV_EVENT_SCROLL_BEGIN, NULL);
+  lv_obj_clear_flag(kachelInverter2, LV_OBJ_FLAG_SCROLLABLE);
 
   label = lv_label_create(kachelInverter2);
   lv_obj_add_style(label, &style_fontKachel, 0);
@@ -343,17 +347,17 @@ void createScreens(void)
   lv_obj_add_style(label, &style_fontKachel, 0);
   lv_label_set_recolor(label, true);
   lv_label_set_text_fmt(label, "#252850 max#");
-  lv_obj_align(label, LV_ALIGN_TOP_MID, 2, 15);
+  lv_obj_align(label, LV_ALIGN_TOP_MID, 0, 15);
 
   label = lv_label_create(kachelInverter2);
   lv_obj_add_style(label, &style_fontKachel, 0);
   lv_label_set_text_fmt(label, "Lade.\nEntl.");
-  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 8, 33);
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 8, 36);
 
   label = lv_label_create(kachelInverter2);
   lv_obj_add_style(label, &style_fontKachel, 0);
   lv_label_set_text_fmt(label, "%.2f A\n%.2f A",0,0);
-  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 75, 33);
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 75, 36);
 
   //Relais
   for(uint8_t i=0;i<6;i++)
@@ -382,19 +386,19 @@ void createScreens(void)
   lv_label_set_text_fmt(label, "\n\nSpg. (V)\nCur. (A)\nSoC (%%)\nMax Cell\n(mV)\nMin Cell\n(mV)\nMax Cell\nDiff (mV)\nTemp °C\nBalance\nFehler");
   lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 0);
     
-  for(uint8_t n=5;n<8;n++)
+  for(uint8_t n=0; n < 7; n++)
   {
-    xPos=44*(n-5)+70;
-    if(n>4)xPos+=2;
+    xPos=44*n+70;
+    if(n>1)xPos+=2;
     label = lv_label_create(tabSerBmsOverview);
-    lv_label_set_text_fmt(label, "S%d",bmsNr);
+    lv_label_set_text_fmt(label, "DD%d",bmsNr);
     lv_obj_align(label, LV_ALIGN_TOP_LEFT, xPos, yPos);
     bmsNr++;
   }
 
   //Draw line horizontal
   line1 = lv_line_create(tabSerBmsOverview);
-  static lv_point_t line_points4[] = {{0, 22}, {198, 22}};
+  static lv_point_t line_points4[] = {{0, 22}, {390, 22}};
   lv_line_set_points(line1, line_points4, 2);
   lv_obj_add_style(line1, &style_line, 0);
 
@@ -415,19 +419,19 @@ void createScreens(void)
   
   yPos=0;
   bmsNr=0;
-  for(uint8_t n=0;n<5;n++)
+  for(uint8_t n=0;n<7;n++)
   {
     xPos=44*n+70;
     if(n>4)xPos+=2;
     label = lv_label_create(tabBTBmsOverview);
-    lv_label_set_text_fmt(label, "Bt%d",bmsNr);
+    lv_label_set_text_fmt(label, "DD%d",bmsNr);
     lv_obj_align(label, LV_ALIGN_TOP_LEFT, xPos, yPos);
     bmsNr++;
   }
 
   //Draw line horizontal
   line1 = lv_line_create(tabBTBmsOverview);
-  static lv_point_t line_points6[] = {{0, 22}, {286, 22}};
+  static lv_point_t line_points6[] = {{0, 22}, {390, 22}};
   lv_line_set_points(line1, line_points6, 2);   
   lv_obj_add_style(line1, &style_line, 0);
 
@@ -445,33 +449,22 @@ void createScreens(void)
   lv_label_set_text_fmt(label, "%s\n\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d","mV",1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16);
   lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 0);
 
-  //Bluetooth
+  //Data-Device
   uint8_t n;
   bmsNr=0;
-  for(n=0;n<5;n++)
+  for(n=0; n < DATA_DEVICE_DEVICES_COUNT; n++)
   {
     xPos=44*n+33;
     if(n>4)xPos+=8;
     label = lv_label_create(tabZellSpg);
-    lv_label_set_text_fmt(label, "Bt%d",bmsNr);
-    lv_obj_align(label, LV_ALIGN_TOP_LEFT, xPos, 0);
-    bmsNr++;
-  }
-
-  //Serial
-  for(uint8_t s=n;s<8;s++)
-  {
-    xPos=44*s+33;
-    if(s>4)xPos+=8;
-    label = lv_label_create(tabZellSpg);
-    lv_label_set_text_fmt(label, "S%d",bmsNr-5);
+    lv_label_set_text_fmt(label, "DD%d",bmsNr);
     lv_obj_align(label, LV_ALIGN_TOP_LEFT, xPos, 0);
     bmsNr++;
   }
 
   //Draw line top horizontal
   line1 = lv_line_create(tabZellSpg);
-  static lv_point_t line_points[] = {{0, 22}, {385, 22}};
+  static lv_point_t line_points[] = {{0, 22}, {835, 22}};
   lv_line_set_points(line1, line_points, 2);   
   lv_obj_add_style(line1, &style_line, 0);
 
@@ -480,12 +473,6 @@ void createScreens(void)
   static lv_point_t line_points2[] = {{28, 0}, {28, 285}};
   lv_line_set_points(line1, line_points2, 2);   
   lv_obj_add_style(line1, &style_line, 0);
-
-  //Draw line right vertical
-  line1 = lv_line_create(tabZellSpg);
-  static lv_point_t line_points3[] = {{253, 0}, {253, 285}};
-  lv_line_set_points(line1, line_points3, 2);   
-  lv_obj_add_style(line1, &style_line2, 0);
 
 
   /****************************************
@@ -502,7 +489,9 @@ void createScreens(void)
   //Display
   label = lv_label_create(tabInfo);
   lv_label_set_text_fmt(label, "Display Firmware Version: %s",BSCD_FW_VERSION);
-  lv_obj_align(label, LV_ALIGN_CENTER, 0, -60);
+  lv_obj_align(label, LV_ALIGN_TOP_LEFT, 0, 60);
+
+
 
   //----------------------
   /* TODO Integrieren mit spezial Display FW
@@ -614,17 +603,17 @@ void displayNewBscData()
 
 
   /****************************************
-   * Tab Serial-BMS Overview
+   * Tab Data-Device 1
    ****************************************/
   u8_lObjCnt=1;
   String str_lIsBalance, str_lError;
   
-  for(uint8_t i=5;i<8;i++)
+  for(uint8_t i=0; i < 7; i++)
   {
     str_lIsBalance="AUS";
     str_lError="#00ff00 OK#";
     if(lDataDisp->bmsIsBalancingActive[i]>0)str_lIsBalance="EIN";
-    if(lDataDisp->bmsErrors[i]>0)
+    if(lDataDisp->bmsErrors[i] > 0)
     {
       str_lError="#ff0000 ERR#";
       bo_lBmsHasError=true;
@@ -635,14 +624,14 @@ void displayNewBscData()
     if((lDataDisp->bmsMaxCellVoltage[i] != UINT16_MAX) && (lDataDisp->bmsMaxCellVoltage[i] != 0))       //Gerät verfügbar
     {
       lv_label_set_recolor(label, true);
-      lv_label_set_text_fmt(label, "S%d\n\n%.1f\n%.1f\n%d\n%d\n\n%d\n\n%d\n\n%.1f\n%s\n%s", u8_lObjCnt-1,
+      lv_label_set_text_fmt(label, "DD%d\n\n%.1f\n%.1f\n%d\n%d\n\n%d\n\n%d\n\n%.1f\n%s\n%s", i,
       lDataDisp->bmsTotalVoltage[i]/100.0, lDataDisp->bmsTotalCurrent[i]/100.0, lDataDisp->bmsChargePercentage[i], lDataDisp->bmsMaxCellVoltage[i],
       lDataDisp->bmsMinCellVoltage[i], lDataDisp->bmsMaxCellDifferenceVoltage[i], lDataDisp->bmsTemperature[i][0]/100.0, str_lIsBalance.c_str(),
       str_lError.c_str());
     }
     else                                                              //Gerät nicht verfügbar -> Spalte ausblenden
     {
-      lv_label_set_text_fmt(label, "S%d", u8_lObjCnt-1);               //Kopfzeile setzen
+      lv_label_set_text_fmt(label, "DD%d", i);               //Kopfzeile setzen
     }
 
     u8_lObjCnt++;
@@ -650,11 +639,11 @@ void displayNewBscData()
 
 
   /****************************************
-   * Tab BT-BMS Overview
+   * Tab Data-Device 2
    ****************************************/
   u8_lObjCnt=1;
 
-  for(uint8_t i=0;i<5;i++)
+  for(uint8_t i=7; i < 14; i++)
   {
     str_lIsBalance="AUS";
     str_lError="#00ff00 OK#";
@@ -671,14 +660,14 @@ void displayNewBscData()
     if((lDataDisp->bmsMaxCellVoltage[i] != UINT16_MAX) && (lDataDisp->bmsMaxCellVoltage[i] != 0))       //Gerät verfügbar
     {
       lv_label_set_recolor(label, true);
-      lv_label_set_text_fmt(label, "Bt%d\n\n%.1f\n%.1f\n%d\n%d\n\n%d\n\n%d\n\n%.1f\n%s\n%s", u8_lObjCnt-1,
+      lv_label_set_text_fmt(label, "DD%d\n\n%.1f\n%.1f\n%d\n%d\n\n%d\n\n%d\n\n%.1f\n%s\n%s", i,
       lDataDisp->bmsTotalVoltage[i]/100.0, lDataDisp->bmsTotalCurrent[i]/100.0, lDataDisp->bmsChargePercentage[i], lDataDisp->bmsMaxCellVoltage[i],
       lDataDisp->bmsMinCellVoltage[i], lDataDisp->bmsMaxCellDifferenceVoltage[i], lDataDisp->bmsTemperature[i][0]/100.0, str_lIsBalance.c_str(),
       str_lError.c_str());
     }
     else                                                              //Gerät nicht verfügbar -> Spalte ausblenden
     {
-      lv_label_set_text_fmt(label, "Bt%d", u8_lObjCnt-1);               //Kopfzeile setzen
+      lv_label_set_text_fmt(label, "DD%d", i);               //Kopfzeile setzen
     }
 
     u8_lObjCnt++;
@@ -689,26 +678,13 @@ void displayNewBscData()
    * Tab Zellspannungen Overview
    ****************************************/
   u8_lObjCnt=1;
-  String DevType = "Bt";
-  uint8_t DevID = u8_lObjCnt-1;
-
-  for(uint8_t i=0;i<8;i++)
+  for(uint8_t i=0; i < DATA_DEVICE_DEVICES_COUNT; i++)
   {
-    if(i>4)                                                                       //Serial BMS werden mit "S" benannt und ab 0 gezählt
-    {
-      DevType = "S";
-      DevID = (u8_lObjCnt-1)-5;
-    }
-    else
-    {
-      DevID = (u8_lObjCnt-1);
-    }
-
     label = lv_obj_get_child(tabZellSpg, u8_lObjCnt);
 
     if((lDataDisp->bmsCellVoltage[i][0] != UINT16_MAX) && (lDataDisp->bmsCellVoltage[i][0] != 0))       //Gerät verfügbar
     {      
-      lv_label_set_text_fmt(label, "%s%d\n\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d", DevType.c_str(), DevID,
+      lv_label_set_text_fmt(label, "DD%d\n\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d", i,
       lDataDisp->bmsCellVoltage[i][0], lDataDisp->bmsCellVoltage[i][1], lDataDisp->bmsCellVoltage[i][2], lDataDisp->bmsCellVoltage[i][3],
       lDataDisp->bmsCellVoltage[i][4], lDataDisp->bmsCellVoltage[i][5], lDataDisp->bmsCellVoltage[i][6], lDataDisp->bmsCellVoltage[i][7],
       lDataDisp->bmsCellVoltage[i][8], lDataDisp->bmsCellVoltage[i][9], lDataDisp->bmsCellVoltage[i][10], lDataDisp->bmsCellVoltage[i][11],
@@ -716,7 +692,7 @@ void displayNewBscData()
     }
     else                                                                          //Gerät nicht verfügbar -> Spalte ausblenden
     {
-      lv_label_set_text_fmt(label, "%s%d", DevType.c_str(), DevID);               //Kopfzeile setzen
+      lv_label_set_text_fmt(label, "DD%d", i);               //Kopfzeile setzen
     }
 
     u8_lObjCnt++;

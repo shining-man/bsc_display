@@ -5,13 +5,11 @@
 
 
 //General
-#define BSCD_FW_VERSION      "1.0.3"
+#define BSCD_FW_VERSION      "1.0.4"
 
-//Bluetooth
-#define BT_DEVICES_COUNT             5
+//
+#define DATA_DEVICE_DEVICES_COUNT   18
 
-//Serial
-#define SERIAL_BMS_DEVICES_COUNT     3
 
 
 //i2c
