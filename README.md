@@ -28,5 +28,6 @@ Am Display ist der I2C-Bus auf folgenden GPIOs:<br>
 SDA: GPIO32<br>
 SCL: GPIO33<br>
 <br>
-![Picture_BSC_Display_BMS](https://github.com/shining-man/bsc_display/blob/main/img/Disp_BMS.jpg?raw=true)
-![Picture_BSC_Display_Cellspgannungen](https://github.com/shining-man/bsc_display/blob/main/img/Disp_Cell.jpg?raw=true)
+<img src="https://github.com/user-attachments/assets/22e9515d-4eb4-4adf-95c0-c8225024a3eb" width="350"/>  
+<img src="https://github.com/user-attachments/assets/e68dd207-ba30-4544-aaf0-3f9db51c3efc" width="350"/>  
+<img src="https://github.com/user-attachments/assets/0916addf-34c6-4ecb-b71c-1510848cf246" width="350"/>
