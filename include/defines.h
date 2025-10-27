@@ -5,7 +5,7 @@
 
 
 //General
-#define BSCD_FW_VERSION      "1.0.4"
+#define BSCD_FW_VERSION      "1.0.5"
 
 //
 #define DATA_DEVICE_DEVICES_COUNT   18
