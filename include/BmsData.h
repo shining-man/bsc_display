@@ -19,7 +19,7 @@ struct bmsData_s
   int16_t    bmsTotalVoltage[DATA_DEVICE_DEVICES_COUNT];             //    x    |   x    |   x    |
   uint16_t   bmsMaxCellDifferenceVoltage[DATA_DEVICE_DEVICES_COUNT]; //    x    |   x    |   x    |
   uint16_t   bmsAvgVoltage[DATA_DEVICE_DEVICES_COUNT];               //    x    |   x    |   x    |
-  int16_t    bmsTotalCurrent[DATA_DEVICE_DEVICES_COUNT];             //         |   x    |   x    |
+  int32_t    bmsTotalCurrent[DATA_DEVICE_DEVICES_COUNT];             //         |   x    |   x    |
   uint16_t   bmsMaxCellVoltage[DATA_DEVICE_DEVICES_COUNT];           //    x    |   x    |   x    |
   uint16_t   bmsMinCellVoltage[DATA_DEVICE_DEVICES_COUNT];           //    x    |   x    |   x    |
   uint8_t    bmsMaxVoltageCellNumber[DATA_DEVICE_DEVICES_COUNT];     //    x    |        |        |

@@ -83,7 +83,7 @@ void IRAM_ATTR processRxData()
           break;
 
         case BMS_TOTAL_CURRENT:
-          memcpy(&lData->bmsTotalCurrent[u8_lBmsNr], &i2cRxBuf[RXBUFF_OFFSET], 2);
+          memcpy(&lData->bmsTotalCurrent[u8_lBmsNr], &i2cRxBuf[RXBUFF_OFFSET], 4);
           break;
 
         case BMS_MAX_CELL_VOLTAGE:
